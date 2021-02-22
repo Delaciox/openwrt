@@ -136,6 +136,15 @@ define Device/tplink_tl-wa830re-v1
 endef
 TARGET_DEVICES += tplink_tl-wa830re-v1
 
+define Device/tplink_tl-wa830re-v2
+  $(Device/tplink-4mlzma)
+  SOC := ar9341
+  DEVICE_MODEL := TL-WA830RE
+  DEVICE_VARIANT := v2
+  TPLINK_HWID := 0x08300002
+endef
+TARGET_DEVICES += tplink_tl-wa830re-v2
+
 define Device/tplink_tl-wa850re-v1
   $(Device/tplink-4mlzma)
   SOC := ar9341
