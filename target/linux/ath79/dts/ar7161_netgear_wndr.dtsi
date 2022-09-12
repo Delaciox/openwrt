@@ -110,8 +110,6 @@
 			#size-cells = <0>;
 			status = "okay";
 
-			phy-mask = <0x10>;
-
 			phy4: ethernet-phy@4 {
 				reg = <4>;
 				phy-mode = "rgmii";
@@ -153,7 +151,6 @@
 		compatible = "pci168c,0029";
 		reg = <0x8800 0 0 0 0>;
 
-		qca,no-eeprom;
 		#gpio-cells = <2>;
 		gpio-controller;
 
@@ -181,7 +178,6 @@
 		compatible = "pci168c,0029";
 		reg = <0x9000 0 0 0 0>;
 
-		qca,no-eeprom;
 		#gpio-cells = <2>;
 		gpio-controller;
 	};

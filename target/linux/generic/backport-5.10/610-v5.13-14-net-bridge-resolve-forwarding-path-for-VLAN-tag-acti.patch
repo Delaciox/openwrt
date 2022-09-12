@@ -15,7 +15,7 @@ Signed-off-by: Pablo Neira Ayuso <pablo@netfilter.org>
 
 --- a/include/linux/netdevice.h
 +++ b/include/linux/netdevice.h
-@@ -841,10 +841,20 @@ struct net_device_path {
+@@ -855,10 +855,20 @@ struct net_device_path {
  			u16		id;
  			__be16		proto;
  		} encap;
@@ -36,7 +36,7 @@ Signed-off-by: Pablo Neira Ayuso <pablo@netfilter.org>
  
  struct net_device_path_stack {
  	int			num_paths;
-@@ -854,6 +864,12 @@ struct net_device_path_stack {
+@@ -868,6 +878,12 @@ struct net_device_path_stack {
  struct net_device_path_ctx {
  	const struct net_device *dev;
  	const u8		*daddr;
@@ -51,7 +51,7 @@ Signed-off-by: Pablo Neira Ayuso <pablo@netfilter.org>
  enum tc_setup_type {
 --- a/net/8021q/vlan_dev.c
 +++ b/net/8021q/vlan_dev.c
-@@ -777,6 +777,12 @@ static int vlan_dev_fill_forward_path(st
+@@ -780,6 +780,12 @@ static int vlan_dev_fill_forward_path(st
  	path->encap.proto = vlan->vlan_proto;
  	path->dev = ctx->dev;
  	ctx->dev = vlan->real_dev;

@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gdb
-PKG_VERSION:=11.1
+PKG_VERSION:=12.1
 PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@GNU/gdb
-PKG_HASH:=cccfcc407b20d343fb320d4a9a2110776dd3165118ffd41f4b1b162340333f94
+PKG_HASH:=0e1793bf8f2b54d53f46dea84ccfd446f48f81b297b28c4f7fc017b818d69fed
 
 PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
@@ -26,14 +26,14 @@ include $(INCLUDE_DIR)/nls.mk
 define Package/gdb/Default
   SECTION:=devel
   CATEGORY:=Development
-  DEPENDS:=+!USE_MUSL:libthread-db $(ICONV_DEPENDS) $(INTL_DEPENDS) +libgmp
+  DEPENDS:=+!USE_MUSL:libthread-db $(ICONV_DEPENDS) $(INTL_DEPENDS)
   URL:=https://www.gnu.org/software/gdb/
 endef
 
 define Package/gdb
 $(call Package/gdb/Default)
   TITLE:=GNU Debugger
-  DEPENDS+=+libreadline +libncurses +zlib
+  DEPENDS+=+libreadline +libncurses +zlib +libgmp
 endef
 
 define Package/gdb/description
@@ -62,7 +62,11 @@ CONFIGURE_ARGS+= \
 	--disable-ubsan \
 	--disable-sim \
 	--disable-werror \
-	--disable-source-highlight
+	--disable-source-highlight \
+	--without-mpc \
+	--without-mpfr \
+	--without-isl \
+	--with-libgmp-prefix=$(STAGING_DIR)/usr
 
 CONFIGURE_VARS+= \
 	ac_cv_search_tgetent="$(TARGET_LDFLAGS) -lncurses -lreadline"

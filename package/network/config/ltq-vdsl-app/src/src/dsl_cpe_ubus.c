@@ -146,7 +146,7 @@ static inline void m_bool(const char *id, bool value) {
 }
 
 static inline void m_u32(const char *id, uint32_t value) {
-	blobmsg_add_u32(&b, id, value);
+	blobmsg_add_u64(&b, id, value);
 }
 
 static inline void m_str(const char *id, const char *value) {
@@ -735,7 +735,7 @@ static int metrics(struct ubus_context *ctx, struct ubus_object *obj,
 	vector_t vector = VECTOR_UNKNOWN;
 
 #ifndef INCLUDE_DSL_CPE_API_DANUBE
-	fd = open(DSL_CPE_DEVICE_NAME "0", O_RDWR, 0644);
+	fd = open(DSL_CPE_DEVICE_NAME "/0", O_RDWR, 0644);
 #else
 	fd = open(DSL_CPE_DEVICE_NAME, O_RDWR, 0644);
 #endif

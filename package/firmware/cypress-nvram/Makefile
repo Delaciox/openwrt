@@ -100,6 +100,27 @@ define Package/cypress-nvram-43455-sdio-rpi-4b/install
 	$(INSTALL_DATA) \
 		$(PKG_BUILD_DIR)/brcmfmac43455-sdio.raspberrypi,4-model-b.txt \
 		$(1)/lib/firmware/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt
+	$(INSTALL_DATA) \
+		$(PKG_BUILD_DIR)/brcmfmac43455-sdio.raspberrypi,4-model-b.txt \
+		$(1)/lib/firmware/brcm/brcmfmac43455-sdio.raspberrypi,4-compute-module.txt
 endef
 
 $(eval $(call BuildPackage,cypress-nvram-43455-sdio-rpi-4b))
+
+# Cypress 4339 SDIO PICO-PI-IMX7D
+define Package/cypress-nvram-4339-pico-pi-imx7d
+  $(Package/cypress-nvram-default)
+  TITLE:=BCM4339 NVRAM for TechNexion PICO-PI-IMX7D
+  DEPENDS:=@TARGET_imx_cortexa7
+  PROVIDES:=brcmfmac-firmware-4339-pico-pi-imx7d
+  CONFLICTS:=brcmfmac-firmware-4339-pico-pi-imx7d
+endef
+
+define Package/cypress-nvram-4339-pico-pi-imx7d/install
+	$(INSTALL_DIR) $(1)/lib/firmware/brcm
+	$(INSTALL_DATA) \
+		./files/brcmfmac4339-sdio.technexion,imx7d-pico-pi.txt \
+		$(1)/lib/firmware/brcm/brcmfmac4339-sdio.technexion,imx7d-pico-pi.txt
+endef
+
+$(eval $(call BuildPackage,cypress-nvram-4339-pico-pi-imx7d))

@@ -8,15 +8,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=lldpd
-PKG_VERSION:=1.0.12
+PKG_VERSION:=1.0.15
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://media.luffy.cx/files/lldpd
-PKG_HASH:=d194c65b5b9c98d194a2842ddc75ba17ebdee7ebd5499f81a98d24031628daf1
+PKG_SOURCE_URL:=https://codeload.github.com/lldpd/lldpd/tar.gz/$(PKG_VERSION)?
+PKG_HASH:=bdb1f9e29f61c3be99e421e88a431536c53e62f1ab7189a6d5b8e1d2d55d8899
 
 PKG_MAINTAINER:=Stijn Tintel <stijn@linux-ipv6.be>
 PKG_LICENSE:=ISC
+PKG_CPE_ID:=cpe:/a:lldpd_project:lldpd
 
 PKG_FIXUP:=autoreconf
 PKG_BUILD_PARALLEL:=1

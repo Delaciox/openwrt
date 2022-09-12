@@ -243,7 +243,7 @@ define KernelPackage/sound-soc-imx-sgtl5000
 	$(LINUX_DIR)/sound/soc/codecs/snd-soc-sgtl5000.ko \
 	$(LINUX_DIR)/sound/soc/fsl/snd-soc-imx-sgtl5000.ko
   AUTOLOAD:=$(call AutoLoad,57,snd-soc-sgtl5000 snd-soc-imx-sgtl5000)
-  DEPENDS:=@TARGET_imx +kmod-sound-soc-imx
+  DEPENDS:=@TARGET_imx +kmod-sound-soc-imx +kmod-regmap-i2c
   $(call AddDepends/sound)
 endef
 
@@ -523,8 +523,7 @@ define KernelPackage/sound-hda-intel
 	CONFIG_SND_HDA_INTEL
   FILES:= \
 	$(LINUX_DIR)/sound/pci/hda/snd-hda-intel.ko \
-	$(LINUX_DIR)/sound/hda/snd-intel-nhlt.ko@lt5.5 \
-	$(LINUX_DIR)/sound/hda/snd-intel-dspcfg.ko@ge5.5
+	$(LINUX_DIR)/sound/hda/snd-intel-dspcfg.ko
   AUTOLOAD:=$(call AutoProbe,snd-hda-intel)
   $(call AddDepends/sound,kmod-sound-hda-core)
 endef

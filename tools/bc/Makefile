@@ -1,5 +1,5 @@
 # 
-# Copyright (C) 2013 OpenWrt.org
+# Copyright (C) 2013-2022 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -7,16 +7,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bc
-PKG_VERSION:=1.06.95
+PKG_VERSION:=1.07
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
-PKG_SOURCE_URL:=http://alpha.gnu.org/gnu/bc \
-	http://gnualpha.uib.no/bc/ \
-	http://mirrors.fe.up.pt/pub/gnu-alpha/bc/ \
-	http://www.nic.funet.fi/pub/gnu/alpha/gnu/bc/
-PKG_HASH:=7ee4abbcfac03d8a6e1a8a3440558a3d239d6b858585063e745c760957725ecc
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=@GNU/bc
+PKG_HASH:=55cf1fc33a728d7c3d386cc7b0cb556eb5bacf8e0cb5a3fcca7f109fc61205ad
 
 PKG_FIXUP := autoreconf
+PKG_CPE_ID:=cpe:/a:gnu:bc
 
 include $(INCLUDE_DIR)/host-build.mk
 

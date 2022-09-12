@@ -5,6 +5,21 @@ include $(INCLUDE_DIR)/image.mk
 
 DEVICE_VARS += ASUS_PRODUCTID ASUS_BUILD_NO ASUS_FW_REV ASUS_EXT_NO
 DEVICE_VARS += NETGEAR_BOARD_ID NETGEAR_REGION
+DEVICE_VARS += SOC
+
+define Image/Prepare
+	cp bootfs*.its* $(KDIR)/
+	sed -i "s=\$$$${images_dir}=$(STAGING_DIR_IMAGE)=" $(KDIR)/bootfs*.its*
+	sed -i "s=\$$$${dts_dir}=$(DTS_DIR)=" $(KDIR)/bootfs*.its*
+endef
+
+define Build/bootfs
+	cat $@ | $(STAGING_DIR_HOST)/bin/lzma e -eos -si -so > $@.tmp
+	mv $@.tmp $@
+	sed -i "s=\$${kernel}=$@=" $(KDIR)/bootfs*.its*
+	PATH=$(LINUX_DIR)/scripts/dtc:$(PATH) mkimage -f $(KDIR)/bootfs-bcm4908.its $(KDIR)/bootfs-bcm4908.itb
+	PATH=$(LINUX_DIR)/scripts/dtc:$(PATH) mkimage -f $(KDIR)/bootfs-bcm4912.its $(KDIR)/bootfs-bcm4912.itb
+endef
 
 define Build/bcm4908asus
 	$(STAGING_DIR_HOST)/bin/bcm4908asus create -i $@ \
@@ -38,6 +53,14 @@ define Build/bcm4908lzma
 	mv $@.new $@
 endef
 
+define Build/pkgtb
+	mv $@ $@.rootfs
+	cp pkgtb-$(SOC).its $@.its
+	sed -i "s=\$${bootfs}=$(KDIR)/bootfs-$(SOC).itb=" $@.its
+	sed -i "s=\$${rootfs}=$@.rootfs=" $@.its
+	PATH=$(LINUX_DIR)/scripts/dtc:$(PATH) mkimage -f $@.its $@
+endef
+
 define Device/Default
   KERNEL := kernel-bin | bcm4908lzma | bcm4908kernel
   KERNEL_DEPENDS = $$(wildcard $(DTS_DIR)/$$(DEVICE_DTS).dts)
@@ -64,6 +87,16 @@ define Device/asus_gt-ac5300
 endef
 TARGET_DEVICES += asus_gt-ac5300
 
+define Device/asus_gt-ax6000
+  DEVICE_VENDOR := Asus
+  DEVICE_MODEL := GT-AX6000
+  DEVICE_DTS := broadcom/bcmbca/bcm4912-asus-gt-ax6000
+  IMAGES := pkgtb
+  IMAGE/pkgtb := append-rootfs | pkgtb
+  SOC := bcm4912
+endef
+# TARGET_DEVICES += asus_gt-ax6000
+
 define Device/netgear_r8000p
   DEVICE_VENDOR := Netgear
   DEVICE_MODEL := R8000P
@@ -85,5 +118,21 @@ define Device/tplink_archer-c2300-v1
   BROKEN := y
 endef
 TARGET_DEVICES += tplink_archer-c2300-v1
+
+define Device/netgear
+  DEVICE_VENDOR := NETGEAR
+  KERNEL := kernel-bin | bootfs
+  IMAGES := chk
+  IMAGE/chk := append-rootfs | pkgtb | netgear-chk
+  NETGEAR_REGION := 1
+endef
+
+define Device/netgear_raxe500
+  DEVICE_MODEL := RAXE500
+  $(Device/netgear)
+  SOC := bcm4908
+  NETGEAR_BOARD_ID := U12H449T00_NETGEAR
+endef
+# TARGET_DEVICES += netgear_raxe500
 
 $(eval $(call BuildImage))

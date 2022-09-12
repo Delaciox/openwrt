@@ -7,13 +7,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=glibc
-PKG_VERSION:=2.33
-PKG_RELEASE:=2
+PKG_VERSION:=2.35
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE_VERSION:=9b01145592fdbffbcbb949d680c152ed2bf2375d
-PKG_MIRROR_HASH:=a1bf0858828ee0f68c7847ce9504bb10ce943d0c8fe801d7ba307add2a238c5b
+PKG_SOURCE_VERSION:=813a8d01716d4e099ec57194a93b14fa08b4beca
+PKG_MIRROR_HASH:=8c8d92dde334f0e0f9a0949d25b2950db513ce8723c31ae0b0ef64730a00322f
 PKG_SOURCE_URL:=https://sourceware.org/git/glibc.git
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.xz
 
@@ -63,7 +63,8 @@ GLIBC_CONFIGURE:= \
 		--$(if $(CONFIG_SOFT_FLOAT),without,with)-fp \
 		  $(if $(CONFIG_PKG_CC_STACKPROTECTOR_REGULAR),--enable-stack-protector=yes) \
 		  $(if $(CONFIG_PKG_CC_STACKPROTECTOR_STRONG),--enable-stack-protector=strong) \
-		--enable-kernel=4.14.0
+		  $(if $(CONFIG_PKG_RELRO_FULL),--enable-bind-now) \
+		--enable-kernel=5.10.0
 
 export libc_cv_ssp=no
 export libc_cv_ssp_strong=no
